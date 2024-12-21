@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 400px;
+            z-index: 10;
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #555;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #ddd;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #4ecdc4;
+        }
+
+        button {
+            width: 100%;
+            padding: 0.75rem;
+            background: #4ecdc4;
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #45b7af;
+        }
+
+        .floating-item {
+            position: absolute;
+            opacity: 0.6;
+            z-index: 1;
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 1.5rem;
+            }
+
+            input, button {
+                padding: 0.6rem;
+            }
+        }
+        .register {
+    font-size: 0.9rem;
+    color:black;
+    text-align: center;
+    margin: 25px 0 10px;
+}
+
+.register p a {
+    text-decoration: none;
+    color: #000000;
+    font-weight: 600;
+}
+
+.register p a:hover {
+    text-decoration: underline;
+}
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1>Log in</h1>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" required placeholder="Enter your email">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" required placeholder="Enter your password">
+            </div>
+            <div class="register">
+                <p>Don't have a account <a href="signup.html">sign-up</a></p>
+            </div>
+            <div>
+            <button type="submit"><a href="Menuicon.html">Login</a></button>
+                </div>
+        </form>
+    </div>
+
+    <script>
+        // Array of shopping items to animate
+        const items = [
+            '👕', '👖', '👟', '👜', '📱', '💻', '⌚️', '📚', '🎮', '🎧'
+        ];
+
+        // Create floating items
+        function createFloatingItem() {
+            const item = document.createElement('div');
+            item.className = 'floating-item';
+            item.textContent = items[Math.floor(Math.random() * items.length)];
+            item.style.fontSize = Math.random() * 20 + 20 + 'px';
+            
+            // Random starting position
+            const startX = Math.random() * window.innerWidth;
+            const startY = window.innerHeight + 100;
+            
+            item.style.left = startX + 'px';
+            item.style.top = startY + 'px';
+            
+            document.body.appendChild(item);
+            
+            // Animation
+            const duration = Math.random() * 5000 + 5000; // 5-10 seconds
+            const endY = -100;
+            const endX = startX + (Math.random() * 200 - 100);
+            
+            const startTime = performance.now();
+            
+            function animate(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = elapsed / duration;
+                
+                if (progress < 1) {
+                    const currentY = startY + (endY - startY) * progress;
+                    const currentX = startX + (endX - startX) * progress;
+                    
+                    item.style.transform = `translate(${currentX - startX}px, ${currentY - startY}px) rotate(${progress * 360}deg)`;
+                    requestAnimationFrame(animate);
+                } else {
+                    item.remove();
+                }
+            }
+            
+            requestAnimationFrame(animate);
+        }
+
+        // Create new items periodically
+        setInterval(createFloatingItem, 1000);
+
+        // Form submission
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // Add your login logic here
+            console.log('Login attempt:', { email, password });
+        });
+
+        // Initial items
+        for (let i = 0; i < 10; i++) {
+            createFloatingItem();
+        }
+    </script>
+</body>
+</html>
